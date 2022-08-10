@@ -6,10 +6,11 @@ import yarl
 import yaml
 import toml
 
-from typing import Any, Dict, Optional, List, Tuple, Union
+from typing import Any, Dict, Optional, List, Tuple, Union, Type
 from dotenv import load_dotenv
 from tempfile import gettempdir
 from pathlib import Path
+from pydantic import BaseSettings
 
 from starlette.config import Config
 from starlette.routing import Router
@@ -117,6 +118,7 @@ def create(
     kwargs = options if options else {}
 
     spec = load_spec()
+
     app = ServiceApi(**kwargs) if api else ServiceApp(**kwargs)
 
     setup_instance(app, spec, load_user_settings())
@@ -260,7 +262,7 @@ def settings_class() -> Optional[str]:
     return pyproject.get('project', {}).get('settings')
 
 
-def load_user_settings() -> Optional[Dict]:
+def load_user_settings() -> Optional[Union[UserSettings, Any]]:
     """Load settings from `module.UserSettingsClassName`."""
     settings, user_class = None, settings_class()
     if not user_class:
