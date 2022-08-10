@@ -1,7 +1,12 @@
 ## Service dep library
 
 Provides a development environment and configuration tools for easily creating new web services.
-The service will be implemented in the ASGI protocol and prepared for launch for uvicorn.
+
+
+# Install
+```shell script
+pip install service-dep
+```
 
 # Testing
 Run tests with:
